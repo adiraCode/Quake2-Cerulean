@@ -781,6 +781,258 @@ void Cmd_Wave_f (edict_t *ent)
 
 /*
 ==================
+Cmd_Store_Teleport_f
+==================
+cerulean - portable teleport
+*/
+void Cmd_Store_Teleport_f(edict_t* ent)
+{
+	VectorCopy(ent->s.origin, ent->client->teleport_origin);
+	VectorCopy(ent->s.angles, ent->client->teleport_angles);
+
+	ent->client->teleport_stored = true;
+
+	gi.centerprintf(ent, "Teleport Location Stored!\n");
+} // cerulean - portable teleporter - Cmd_Store_Teleport_f
+
+/*
+==================
+Cmd_Load_Teleport_f
+==================
+cerulean - portable teleport
+*/
+void Cmd_Load_Teleport_f(edict_t* ent)
+{
+	int		i;
+
+	if (!ent->deadflag)
+	{
+		if (ent->client->teleport_stored)
+		{
+			if (ent->client->pers.inventory[ITEM_INDEX(FindItem("Cells"))] < TELEPORT_AMMO)
+				gi.centerprintf(ent, "Not enough cells to teleport (need %d).\n", TELEPORT_AMMO);
+			else
+			{
+				if (ent->health < TELEPORT_HEALTH)
+					gi.centerprintf(ent, "You can't teleport.\nYou need %d health.\n", TELEPORT_HEALTH);
+				else
+				{
+					gi.WriteByte(svc_temp_entity);
+					gi.WriteByte(TE_BOSSTPORT);
+					gi.WritePosition(ent->s.origin);
+					gi.multicast(ent->s.origin, MULTICAST_PVS);
+
+					// unlink to make sure it can't possibly interfere with KillBox
+					gi.unlinkentity(ent);
+
+					VectorCopy(ent->client->teleport_origin, ent->s.origin);
+					VectorCopy(ent->client->teleport_origin, ent->s.old_origin);
+					ent->s.origin[2] += 10;
+
+					// clear the velocity and hold them in place briefly
+					VectorClear(ent->velocity);
+					ent->client->ps.pmove.pm_time = 160 >> 3;		// hold time
+					ent->client->ps.pmove.pm_flags |= PMF_TIME_TELEPORT;
+
+					// draw the teleport splash on the player
+					ent->s.event = EV_PLAYER_TELEPORT;
+
+					// set angles
+					for (i = 0; i < 3; i++)
+						ent->client->ps.pmove.delta_angles[i] = ANGLE2SHORT(ent->client->teleport_angles[i] - ent->client->resp.cmd_angles[i]);
+
+					VectorClear(ent->s.angles);
+					VectorClear(ent->client->ps.viewangles);
+					VectorClear(ent->client->v_angle);
+
+					// kill anything at the destination
+					KillBox(ent);
+
+					gi.linkentity(ent);
+
+					ent->client->pers.inventory[ITEM_INDEX(FindItem("Cells"))] -= TELEPORT_AMMO;
+				}
+			}
+		}
+		else
+			gi.centerprintf(ent, "You don't have a location stored\n");
+	}
+	else
+		gi.centerprintf(ent, "Sorry. Can't teleport when dead.\n");
+} // cerulean - portable teleporter - Cmd_Load_Teleport_f
+
+/*
+==================
+Cmd_Push_f
+==================
+cerulean - push'em away (vaccum gun)
+*/
+void Cmd_Push_f(edict_t* ent)
+{
+	vec3_t start;
+	vec3_t forward;
+	vec3_t end;
+	trace_t tr;
+
+	VectorCopy(ent->s.origin, start);
+	start[2] += ent->viewheight;
+	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+	VectorMA(start, 8192, forward, end);
+	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
+	if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client)))
+	{
+		VectorScale(forward, 5000, forward);
+		VectorAdd(forward, tr.ent->velocity, tr.ent->velocity);
+	}
+} // cerulean - push'em away (vaccum gun push)
+
+/*
+==================
+Cmd_Pull_f
+==================
+cerulean - push'em away (vaccum gun pull)
+*/
+void Cmd_Pull_f(edict_t* ent)
+{
+	vec3_t start;
+	vec3_t forward;
+	vec3_t end;
+	trace_t tr;
+
+	VectorCopy(ent->s.origin, start);
+	start[2] += ent->viewheight;
+	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+	VectorMA(start, 8192, forward, end);
+	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
+	if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client)))
+	{
+		VectorScale(forward, -500, forward);
+		VectorAdd(forward, tr.ent->velocity, tr.ent->velocity);
+	}
+} // cerulean - push'em away (vaccum gun pull)
+
+/*
+====================
+Cmd_Purchase_Floor_f
+====================
+cerulean - cafe floor
+cost 1000
+*/
+void Cmd_Purchase_Floor_f(edict_t* ent)
+{
+	int worth;
+	worth = ent->client->ps.stats[STAT_WEALTH];
+
+	if (ent->client->ps.stats[STAT_WEALTH] < 1000)
+	{
+		worth = 1000 - worth;
+		gi.centerprintf(ent, "Sorry. You still need %d\n for the floors. \n", worth);
+	}
+	else 
+	{
+		ent->client->ps.stats[STAT_WEALTH] = worth - 1000;
+		gi.centerprintf(ent, "Congrats you just bought the flooring!\n");
+	}
+}
+
+/*
+====================
+Cmd_Purchase_Walls_f
+====================
+cerulean - cafe walls
+cost 2000
+*/
+void Cmd_Purchase_Walls_f(edict_t* ent)
+{
+	int worth;
+	worth = ent->client->ps.stats[STAT_WEALTH];
+
+	if (ent->client->ps.stats[STAT_WEALTH] < 2000)
+	{
+		worth = 2000 - worth;
+		gi.centerprintf(ent, "Sorry. You still need %d\n for the walls. \n", worth);
+	}
+	else
+	{
+		ent->client->ps.stats[STAT_WEALTH] = worth - 2000;
+		gi.centerprintf(ent, "Congrats you just bought the walls!\n");
+	}
+}
+
+/*
+====================
+Cmd_Purchase_Roof_f
+====================
+cerulean - cafe roof
+cost 3000
+*/
+void Cmd_Purchase_Roof_f(edict_t* ent)
+{
+	int worth;
+	worth = ent->client->ps.stats[STAT_WEALTH];
+
+	if (ent->client->ps.stats[STAT_WEALTH] < 3000)
+	{
+		worth = 3000 - worth;
+		gi.centerprintf(ent, "Sorry. You still need %d\n for the roof. \n", worth);
+	}
+	else
+	{
+		ent->client->ps.stats[STAT_WEALTH] = worth - 3000;
+		gi.centerprintf(ent, "Congrats you just bought the roof!\n");
+	}
+}
+
+/*
+====================
+Cmd_Purchase_Door_f
+====================
+cerulean - cafe door
+cost 4000
+*/
+void Cmd_Purchase_Door_f(edict_t* ent)
+{
+	int worth;
+	worth = ent->client->ps.stats[STAT_WEALTH];
+
+	if (ent->client->ps.stats[STAT_WEALTH] < 4000)
+	{
+		worth = 4000 - worth;
+		gi.centerprintf(ent, "Sorry. You still need %i\n for the door. \n");
+	}
+	else
+	{
+		ent->client->ps.stats[STAT_WEALTH] = worth - 4000;
+		gi.centerprintf(ent, "Congrats you just bought the door!\n");
+	}
+}
+
+/*
+=====================
+Cmd_Purchase_Coffee_f
+=====================
+cerulean - cafe coffee
+cost 5000
+*/
+void Cmd_Purchase_Coffee_f(edict_t* ent)
+{
+	int worth;
+	worth = ent->client->ps.stats[STAT_WEALTH];
+
+	if (ent->client->ps.stats[STAT_WEALTH] < 5000)
+	{
+		worth = 5000 - worth;
+		gi.centerprintf(ent, "Sorry. You still need %d\n for coffee.\n", worth);
+	}
+	else
+	{
+		ent->client->ps.stats[STAT_WEALTH] = worth - 5000;
+		gi.centerprintf(ent, "Congrats you just bought coffee!\n You can now open the shop!\n");
+	}
+}
+
+/*
+==================
 Cmd_Say_f
 ==================
 */
@@ -899,6 +1151,30 @@ void Cmd_PlayerList_f(edict_t *ent)
 	gi.cprintf(ent, PRINT_HIGH, "%s", text);
 }
 
+/*
+=================
+Cmd_Thrust_f
+cerulean jetpack
+=====================
+MUCE : To set jetpack on or off
+=================
+*/
+void Cmd_Thrust_f(edict_t * ent)
+{
+	char* string;
+
+	string = gi.args();
+
+	if (Q_stricmp(string, "on") == 0)
+	{
+		ent->client->thrusting = 1;
+		ent->client->next_thrust_sound = 0;
+	}
+	else
+	{
+		ent->client->thrusting = 0;
+	}
+}
 
 /*
 =================
@@ -987,6 +1263,59 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
+
+	// cerulean - portable teleport
+	// ============================
+	else if (Q_stricmp(cmd, "svteleport") == 0)
+		Cmd_Store_Teleport_f(ent);
+	else if (Q_stricmp(cmd, "ldteleport") == 0)
+		Cmd_Load_Teleport_f(ent);
+
+	// cerulean - push'em around
+	// =====================
+	// Vaccum Gun Commands
+	else if (Q_stricmp(cmd, "push") == 0)
+		Cmd_Push_f(ent);
+	else if (Q_stricmp(cmd, "pull") == 0)
+		Cmd_Pull_f(ent);
+
+	// cerulean - cafe parts
+	// =====================
+	// Floor, walls, roof, door, coffee
+	else if (Q_stricmp(cmd, "buyfloor") == 0)
+		Cmd_Purchase_Floor_f(ent);
+
+	else if (Q_stricmp(cmd, "buywalls") == 0)
+		Cmd_Purchase_Walls_f(ent);
+	else if (Q_stricmp(cmd, "buyroof") == 0)
+		Cmd_Purchase_Roof_f(ent);
+	else if (Q_stricmp(cmd, "buydoor") == 0)
+		Cmd_Purchase_Door_f(ent);
+	else if (Q_stricmp(cmd, "buycoffee") == 0)
+		Cmd_Purchase_Coffee_f(ent);
+
+	// cerulean - tools
+	// ================
+	// Garden plots for f(ruit) and v(eggie), Slime pen, Chicken coop
+	/*
+	else if (Q_stricmp(cmd, "toolgardenf") == 0)
+		Cmd_Fruit_Plot_f(ent);
+	else if (Q_stricmp(cmd, "toolgardenv") == 0)
+		Cmd_Veggie_Plot_f(ent);
+	else if (Q_stricmp(cmd, "toolpen") == 0)
+		Cmd_Slime_Pen_f(ent);
+	else if (Q_stricmp(cmd, "toolcoop") == 0)
+		Cmd_Chicken_Coop_f(ent);
+	*/
+	// MUCE:  added to jetpack thrust!
+	else if (Q_stricmp(cmd, "thrust") == 0)
+		Cmd_Thrust_f(ent);
+
+	// Adira - Not in code. Seen in various tutorials. 
+	// Works in modded game?
+	else if (Q_stricmp(cmd, "gameversion") == 0)
+		gi.cprintf(ent, PRINT_HIGH, "%s : %s\n", GAMEVERSION, __DATE__);
+
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }

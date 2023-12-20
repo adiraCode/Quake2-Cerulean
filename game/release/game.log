@@ -1,0 +1,29 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  g_combat.c
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(370,51): warning C4100: 'attacker': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(370,36): warning C4100: 'targ': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(495,18): warning C4047: '==': 'edict_t *' differs in levels of indirection from 'int'
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(497,47): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(498,44): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(499,42): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(506,6): warning C4013: 'SP_monster_gladiator' undefined; assuming extern returning int
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(514,45): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(521,47): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(528,46): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(539,23): warning C4047: '==': 'edict_t *' differs in levels of indirection from 'int'
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(541,48): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(542,44): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(543,42): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(558,46): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(565,47): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(572,46): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(585,46): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(586,42): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(587,40): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(602,44): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(609,45): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(616,44): warning C4130: '==': logical operation on address of string constant
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(249): warning C4701: potentially uninitialized local variable 'index' used
+C:\Users\Trini\source\repos\Q2mod-cerulean\game\g_combat.c(209): warning C4701: potentially uninitialized local variable 'power' used
+     Creating library .\..\release\gamex86.lib and object .\..\release\gamex86.exp
+  game.vcxproj -> C:\Users\Trini\Steam\steamapps\common\Quake 2\cerulean\gamex86.dll

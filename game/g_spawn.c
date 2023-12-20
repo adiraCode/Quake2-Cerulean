@@ -144,6 +144,20 @@ void SP_turret_breach (edict_t *self);
 void SP_turret_base (edict_t *self);
 void SP_turret_driver (edict_t *self);
 
+/*
+// cerulean - slime functions
+// ==========================
+void SP_monster_slimepink (edict_t* self);
+void SP_monster_slimeyellow (edict_t* self);
+void SP_monster_slimegray (edict_t* self);
+void SP_monster_slimewhite(edict_t* self);
+void SP_monster_slimeblue(edict_t* self);
+void SP_monster_slimegreen(edict_t* self);
+void SP_monster_slimered(edict_t* self);
+void SP_monster_slimeorange (edict_t * self);
+void SP_monster_slimepurple (edict_t * self);
+void SP_monster_slimetarr (edict_t * self);
+*/
 
 spawn_t	spawns[] = {
 	{"item_health", SP_item_health},
@@ -260,6 +274,27 @@ spawn_t	spawns[] = {
 	{"monster_jorg", SP_monster_jorg},
 
 	{"monster_commander_body", SP_monster_commander_body},
+	
+	/*
+	===============
+	cerulean - slime spawns
+
+	Finds the spawn function for the entity and calls it	
+	===============
+	
+
+	{ "monster_slimepink", SP_monster_slimepink },
+	{ "monster_slimeyellow", SP_monster_slimeyellow },
+	{ "monster_slimegray", SP_monster_slimegray },
+	{ "monster_slimewhite", SP_monster_slimewhite },
+	{ "monster_slimeblue", SP_monster_slimeblue },
+	{ "monster_slimegreen", SP_monster_slimegreen },
+	{ "monster_slimered", SP_monster_slimered },
+	{ "monster_slimeorange", SP_monster_slimeorange },
+	{ "monster_slimepurple", SP_monster_slimepurple },
+	{ "monster_slimetarr", SP_monster_slimetarr },
+	*/
+
 
 	{"turret_breach", SP_turret_breach},
 	{"turret_base", SP_turret_base},
@@ -624,46 +659,57 @@ void SpawnEntities (char *mapname, char *entities, char *spawnpoint)
 
 #if 0
 	// cursor positioning
-	xl <value>
-	xr <value>
-	yb <value>
-	yt <value>
-	xv <value>
-	yv <value>
+	xl <value>	// X pos from the left side of the physical screen
+	xr <value>	// X pos from the right side of the physical screen
+	yb <value>	// Y pos from the bottom of the physical screen
+	yt <value>	// Y pos from the top of the physical screen
+	xv <value>	// X pos on the virtual screen (virtual screen size is 320x200)
+	yv <value>	// Y pos on the virtual screen (virtual screen size is 320x200)
 
 	// drawing
-	statpic <name>
-	pic <stat>
-	num <fieldwidth> <stat>
-	string <stat>
+	statpic <name>				// Unknown
+	pic <stat>					// Icon field, imageindex in stat-array at index
+	num <fieldwidth> <stat>		// Number field, value in stat-array at index
+	string <stat>				// Unknown
+	
+	//DECEKER: This isn't in the original source, but I've inserted ir for completeness
+	// stat_string				// String field, display pickup-string from itemlist-array
+								// at the index that the value in stat-array that index points to. 
 
 	// control
-	if <stat>
-	ifeq <stat> <value>
-	ifbit <stat> <value>
+	if <stat>					// Statement is true if content of  is notzero
+	ifeq <stat> <value>			// Statement is true if content of  is equal to
+	ifbit <stat> <value>		// Unknown (Maybe an OR-expression)
 	endif
 
 #endif
 
-char *single_statusbar = 
-"yb	-24 "
+char *single_statusbar =		// Variable that contains statusbar for singleplayer
+								// The microlanguage is in one big text-variable
+"yb	-24 "						// Set y-cursor to physical screen bottom minus 24 pixels
+								// (Default Icon-size is 24*24 pixels)
 
 // health
-"xv	0 "
-"hnum "
-"xv	50 "
-"pic 0 "
+"xv	0 "							// Set x-cursor ro virtual screen (0 pixels from left)
+"hnum "							// Health number (3 digits) (controlled internally)
+"xv	50 "						// Set x-cursor to virtual screen (50 pixels from left)
+"pic 0 "						// Show icon where imageindex is at index 0 in the stat-array (Health-icon)
 
 // ammo
-"if 2 "
-"	xv	100 "
-"	anum "
-"	xv	150 "
-"	pic 2 "
-"endif "
+"if 2 "							// If value at 2 in the stat-array is not zero, then do
+"	xv	100 "					// Set x-cursor to virtual screen (100 pixels from left)
+"	anum "						// Ammo number (3 digits) (controlled internally)
+"	xv	150 "					// Set x-curso to virtual screen (150 pixels from left)
+"	pic 2 "						// Show icon where imageindex is at index 2 in the stat-array (Ammo-icons)
+"endif "						// End-statement
+
+								// DECKER:
+								// The above will say that, if there is an icon (imageindex greater than zero)
+								// in the stat-array at index 2, then show ammount of ammo and the respective
+								// icon for that ammo-type.
 
 // armor
-"if 4 "
+"if 4 "							// As above.
 "	xv	200 "
 "	rnum "
 "	xv	250 "
@@ -671,40 +717,79 @@ char *single_statusbar =
 "endif "
 
 // selected item
-"if 6 "
+"if 6 "							// As above.
 "	xv	296 "
 "	pic 6 "
 "endif "
 
-"yb	-50 "
+"yb	-50 "						// Set y-cursor to physical screen bottom minus 50 pixels
 
 // picked up item
-"if 7 "
+"if 7 "							// As above.
 "	xv	0 "
 "	pic 7 "
 "	xv	26 "
-"	yb	-42 "
-"	stat_string 8 "
-"	yb	-50 "
+"	yb	-42 "					// Set y-cursor to physical screen bottom minus 42 pizels
+"	stat_string 8 "				// Display pickup-string from itemlist-array at the index that
+								// the value in stat-array at index 8 points to.
+"	yb	-50 "					// restore y-cursor to previous value
 "endif "
 
 // timer
-"if 9 "
-"	xv	262 "
-"	num	2	10 "
-"	xv	296 "
+"if 9 "							// As above.
+"	yb	-24 "					// Set Y-cursor -24 pixels from physical screen bottom
+"	xr	-58 "					// Set X-cursor -58 pixels from physical screen right
+"	num 2	10 "
+"	xr	-24 "
 "	pic	9 "
 "endif "
 
+// timer2			
+"if 16 "						// If STAT_TIMER2_ICON is not zero, then do
+"	yb	-48 "	
+"	xr	-58 "		
+"	num	2	17 "				// Display 2-digits with value from stat-array at index 17
+"	xr	-24 "		
+"	pic	16 "					// Display icon
+"endif "			
+
+// timer3			
+"if 18 "			// If STAT_TIMER3_ICON is not zero, then do
+"	yb	-72 "		
+"	xr	-58 "		
+"	num	2	19 "	// Display 2-digits with value from stat-array at index 19
+"	xr	-24 "		
+"	pic	18 "		// Display icon
+"endif "			
+
+// timer4			
+"if 20 "			// If STAT_TIMER4_ICON is not zero, then do
+"	yb	-96 "		
+"	xr	-58 "		
+"	num	2	21 "	// Display 2-digits with value from stat-array at index 21
+"	xr	-24 "		
+"	pic	20 "		// Display icon
+"endif "		
+// cerulean - statusbar
+
 //  help / weapon icon 
-"if 11 "
+"if 11 "						// As above.
 "	xv	148 "
 "	pic	11 "
 "endif "
+// cerulean - wealth
+"if 19 "
+"	xv 210 "
+"		num 4	19 "
+"	xv 234 "
+"	yb -59 "
+"	string QUORTS "
+"endif "
+// cerulean - wealth
 ;
 
-char *dm_statusbar =
-"yb	-24 "
+char *dm_statusbar =			// Variable that contains statusbar for deathmatch
+"yb	-24 "						// The deathmatch-statusbar only adds a frags-counter
 
 // health
 "xv	0 "
@@ -761,9 +846,19 @@ char *dm_statusbar =
 "endif "
 
 //  frags
-"xr	-50 "
-"yt 2 "
-"num 3 14 "
+"xr	-50 "						// Set x-cursor to physical screen -50 pixels from the right
+"yt 2 "							// Set y-cursor to physical screen 2 pixels from the top
+"num 3 14 "						// Display a three-digit value that is contained in stat-array at index 14
+
+// cerulean - wealth DM
+"if 19 "
+"	xv 210 "
+"		num 4	19 "
+"	xv 234 "
+"	yb -59 "
+"	string RANGE "
+"endif "
+// cerulean - wealth DM
 
 // spectator
 "if 17 "

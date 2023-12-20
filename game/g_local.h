@@ -81,6 +81,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define BODY_QUEUE_SIZE		8
 
+// cerulean - portable teleporter
+// ==============================
+#define TELEPORT_AMMO				0
+#define TELEPORT_HEALTH				0
+
 typedef enum
 {
 	DAMAGE_NO,
@@ -498,6 +503,11 @@ extern	int	body_armor_index;
 #define MOD_TRIGGER_HURT	31
 #define MOD_HIT				32
 #define MOD_TARGET_BLASTER	33
+// cerulean
+#define MOD_FRUIT			34
+#define MOD_VEGGIE			35
+#define MOD_MEAT			36
+// cerulean - food mod's
 #define MOD_FRIENDLY_FIRE	0x8000000
 
 extern	int	meansOfDeath;
@@ -862,6 +872,14 @@ typedef struct
 	int			helpchanged;
 
 	qboolean	spectator;			// client is a spectator
+
+	// cerulean - wealth
+	// =================
+	int			wealth;
+
+	// cerulean - cafe
+	// =================
+	int			cafe;
 } client_persistant_t;
 
 // client data that stays across deathmatch respawns
@@ -943,7 +961,7 @@ struct gclient_s
 	float		invincible_framenum;
 	float		breather_framenum;
 	float		enviro_framenum;
-
+		
 	qboolean	grenade_blew_up;
 	float		grenade_time;
 	int			silencer_shots;
@@ -959,6 +977,24 @@ struct gclient_s
 
 	edict_t		*chase_target;		// player we are chasing
 	qboolean	update_chase;		// need to update chase info?
+
+	// cerulean - portable teleporter
+	// ==============================
+	// teleport storage variables
+	qboolean	teleport_stored;
+	vec3_t		teleport_angles;
+	vec3_t		teleport_origin;
+
+	// cerulean - jetpack
+	// ===================
+	// jetpack variables
+	qboolean        thrusting;              // 1 on 0 off
+	float           next_thrust_sound;
+
+	// cerulean - quorts 
+	// =================
+	// variable (unsure if needed)
+	int				wealth;
 };
 
 
@@ -1056,6 +1092,10 @@ struct edict_s
 	int			gib_health;
 	int			deadflag;
 	qboolean	show_hostile;
+
+	// cerulean - wealth
+	// =================
+	int			wealth;
 
 	float		powerarmor_time;
 

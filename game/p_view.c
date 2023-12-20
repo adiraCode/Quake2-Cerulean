@@ -440,6 +440,7 @@ void SV_CalcBlend (edict_t *ent)
 		SV_AddBlend (0.5, 0.3, 0.2, 0.4, ent->client->ps.blend);
 
 	// add for powerups
+	
 	if (ent->client->quad_framenum > level.framenum)
 	{
 		remaining = ent->client->quad_framenum - level.framenum;

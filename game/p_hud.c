@@ -303,6 +303,10 @@ void HelpComputer (edict_t *ent)
 {
 	char	string[1024];
 	char	*sk;
+	char	p_cafe;
+	char	p_wealth;
+
+	p_wealth = ent->client->ps.stats[STAT_WEALTH];
 
 	if (skill->value == 0)
 		sk = "easy";
@@ -312,6 +316,17 @@ void HelpComputer (edict_t *ent)
 		sk = "hard";
 	else
 		sk = "hard+";
+	
+	// cerulean - help screen strings
+	// ==============================
+	// player cafe parts
+	
+	sprintf(p_cafe, "Cafe Parts: %i",
+		ent->client->pers.cafe);
+	
+	// player currency
+	sprintf(p_wealth, "Quorts: %i",
+		ent->client->pers.wealth);
 
 	// send the layout
 	Com_sprintf (string, sizeof(string),
@@ -324,8 +339,8 @@ void HelpComputer (edict_t *ent)
 		"xv 50 yv 172 string2 \"%3i/%3i     %i/%i       %i/%i\" ", 
 		sk,
 		level.level_name,
-		game.helpmessage1,
-		game.helpmessage2,
+		p_cafe,
+		p_wealth,
 		level.killed_monsters, level.total_monsters, 
 		level.found_goals, level.total_goals,
 		level.found_secrets, level.total_secrets);
@@ -380,11 +395,19 @@ void G_SetStats (edict_t *ent)
 	int			index, cells;
 	int			power_armor_type;
 
+	// cerulean - range finder 
+	// =======================
+	// CCH: local variables for rangefinder
+	// vec3_t		start, forward, end;
+	// trace_t		tr;
+
 	//
 	// health
 	//
 	ent->client->ps.stats[STAT_HEALTH_ICON] = level.pic_health;
 	ent->client->ps.stats[STAT_HEALTH] = ent->health;
+
+	//DECKER: Now the health-icon and health have been set for this player
 
 	//
 	// ammo
@@ -393,12 +416,19 @@ void G_SetStats (edict_t *ent)
 	{
 		ent->client->ps.stats[STAT_AMMO_ICON] = 0;
 		ent->client->ps.stats[STAT_AMMO] = 0;
+
+		// DECKER: If the palyer is holding a weapon that does not require any ammo, the ammo-icon and
+		// ammo-amount are cleared, thus not displaying any icons or numbers. (Remember the ammo-macro's
+		// if-structure)
 	}
 	else
 	{
 		item = &itemlist[ent->client->ammo_index];
 		ent->client->ps.stats[STAT_AMMO_ICON] = gi.imageindex (item->icon);
 		ent->client->ps.stats[STAT_AMMO] = ent->client->pers.inventory[ent->client->ammo_index];
+
+		// DECKER: Otherwise, we find the item-number of the ammo-type (ammo-index), and from that the
+		// imageindex of the item-icon. We also remember to set the ammo-amount
 	}
 	
 	//
@@ -415,6 +445,9 @@ void G_SetStats (edict_t *ent)
 			power_armor_type = 0;;
 		}
 	}
+
+	// DECEKR: Above does some stuff that insn't directly related to the statusbar, other than to
+	// check if power_armor ran out of cells
 
 	index = ArmorIndex (ent);
 	if (power_armor_type && (!index || (level.framenum & 8) ) )
@@ -434,6 +467,8 @@ void G_SetStats (edict_t *ent)
 		ent->client->ps.stats[STAT_ARMOR] = 0;
 	}
 
+	//DECKER: The above controls the armor and power_armor icons and values.
+
 	//
 	// pickup message
 	//
@@ -443,9 +478,61 @@ void G_SetStats (edict_t *ent)
 		ent->client->ps.stats[STAT_PICKUP_STRING] = 0;
 	}
 
+	// DECKER: Clears the pickup message and icon when time is up. It is set in file g_items.c
+
 	//
 	// timers
 	//
+	if (ent->client->quad_framenum > level.framenum)
+	{
+		item = &itemlist[ent->client->ammo_index];
+		ent->client->ps.stats[STAT_AMMO_ICON] = gi.imageindex(item->icon);
+		ent->client->ps.stats[STAT_AMMO] = ent->client->pers.inventory[ent->client->ammo_index];
+
+		ent->client->ps.stats[STAT_SLIME_ICON] = gi.imageindex("p_quad");
+		ent->client->ps.stats[STAT_SLIME] = (ent->client->quad_framenum - level.framenum) / 10;
+	}
+	else							
+	{							
+		ent->client->ps.stats[STAT_SLIME_ICON] = 0;	
+		ent->client->ps.stats[STAT_SLIME] = 0;		
+	}							
+
+	if (ent->client->invincible_framenum > level.framenum)
+	{
+		ent->client->ps.stats[STAT_FRUIT_ICON] = gi.imageindex("p_invulnerability");
+		ent->client->ps.stats[STAT_FRUIT] = (ent->client->invincible_framenum - level.framenum) / 10;
+	}
+	else							
+	{							
+		ent->client->ps.stats[STAT_FRUIT_ICON] = 0;	
+		ent->client->ps.stats[STAT_FRUIT] = 0;		
+	}							
+
+	if (ent->client->enviro_framenum > level.framenum)
+	{
+		ent->client->ps.stats[STAT_VEGGIE_ICON] = gi.imageindex("p_envirosuit");
+		ent->client->ps.stats[STAT_VEGGIE] = (ent->client->enviro_framenum - level.framenum) / 10;
+	}
+	else							
+	{							
+		ent->client->ps.stats[STAT_VEGGIE_ICON] = 0;	
+		ent->client->ps.stats[STAT_VEGGIE] = 0;		
+	}							
+
+	if (ent->client->breather_framenum > level.framenum)
+	{
+		ent->client->ps.stats[STAT_MEAT_ICON] = gi.imageindex("p_rebreather");
+		ent->client->ps.stats[STAT_MEAT] = (ent->client->breather_framenum - level.framenum) / 10;
+	}
+	else							
+	{							
+		ent->client->ps.stats[STAT_MEAT_ICON] = 0;	
+		ent->client->ps.stats[STAT_MEAT] = 0;		
+	}
+
+
+	/*
 	if (ent->client->quad_framenum > level.framenum)
 	{
 		ent->client->ps.stats[STAT_TIMER_ICON] = gi.imageindex ("p_quad");
@@ -454,7 +541,7 @@ void G_SetStats (edict_t *ent)
 	else if (ent->client->invincible_framenum > level.framenum)
 	{
 		ent->client->ps.stats[STAT_TIMER_ICON] = gi.imageindex ("p_invulnerability");
-		ent->client->ps.stats[STAT_TIMER] = (ent->client->invincible_framenum - level.framenum)/10;
+		//ent->client->ps.stats[STAT_TIMER] = (ent->client->invincible_framenum - level.framenum)/10;
 	}
 	else if (ent->client->enviro_framenum > level.framenum)
 	{
@@ -470,7 +557,11 @@ void G_SetStats (edict_t *ent)
 	{
 		ent->client->ps.stats[STAT_TIMER_ICON] = 0;
 		ent->client->ps.stats[STAT_TIMER] = 0;
-	}
+	}*/
+
+	// DECKER: Above controls all our powerups; Quad, Invulnerability, Envirosuit and Rebreather, but
+	// only one will be shown, even is all are active, because they are using the same index in the
+	// stat-array.
 
 	//
 	// selected item
@@ -479,6 +570,8 @@ void G_SetStats (edict_t *ent)
 		ent->client->ps.stats[STAT_SELECTED_ICON] = 0;
 	else
 		ent->client->ps.stats[STAT_SELECTED_ICON] = gi.imageindex (itemlist[ent->client->pers.selected_item].icon);
+
+	// DECKER: Shows what item in the players inventory that is currently selected (if any)
 
 	ent->client->ps.stats[STAT_SELECTED_ITEM] = ent->client->pers.selected_item;
 
@@ -508,6 +601,9 @@ void G_SetStats (edict_t *ent)
 	//
 	ent->client->ps.stats[STAT_FRAGS] = ent->client->resp.score;
 
+	// DECKER: No 'is deahtmatch active' checks, because if you run single-palyer,
+	// the frags won't show on your statusbar as the statusbar-macro does not refer it
+
 	//
 	// help icon / current weapon if not shown
 	//
@@ -520,6 +616,28 @@ void G_SetStats (edict_t *ent)
 		ent->client->ps.stats[STAT_HELPICON] = 0;
 
 	ent->client->ps.stats[STAT_SPECTATOR] = 0;
+
+	// DECKER: Above controls the show/don't show of the help-icon and is the player set his "HAND 2"
+	// it displays the icon of the currently selected weapon, by finding the imageindex of it
+
+	/*
+	// cerulean - Range Finder (slime finder)
+	// ======================
+	// CCH: range finder
+	VectorCopy(ent->s.origin, start);
+	start[2] += ent->viewheight;
+	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+	VectorMA(start, 8192, forward, end);
+	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT | CONTENTS_SLIME | CONTENTS_LAVA);
+	// check for sky and max the range if found
+	if (tr.surface && (tr.surface->flags & SURF_SKY))
+		ent->client->ps.stats[STAT_SLIMEFINDER] = 9999;
+	else
+		ent->client->ps.stats[STAT_SLIMEFINDER] = (int)(tr.fraction * 8192);
+	// cerulean - range finder (slime finder)
+	*/
+
+	ent->client->ps.stats[STAT_WEALTH] = ent->wealth;
 }
 
 /*

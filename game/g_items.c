@@ -418,6 +418,70 @@ void	Use_Silencer (edict_t *ent, gitem_t *item)
 }
 
 //======================================================================
+// cerulean - quort pickup function
+
+qboolean Pickup_Quort(edict_t* ent, edict_t* other)
+{
+	gitem_t *quort;
+
+	quort = FindItem("quortpink");
+	if (quort)
+	{
+		ent->client->ps.stats[STAT_WEALTH] += 60;
+	}
+
+	quort = FindItem("quortyell");
+	if (quort)
+	{
+		ent->client->ps.stats[STAT_WEALTH] += 120;
+	}
+
+	quort = FindItem("quortgray");
+	if (quort)
+	{
+		ent->client->ps.stats[STAT_WEALTH] += 240;
+	}
+
+	quort = FindItem("quortwht");
+	if (quort)
+	{
+		ent->client->ps.stats[STAT_WEALTH] += 480;
+	}
+
+	quort = FindItem("quortblue");
+	if (quort)
+	{
+		ent->client->ps.stats[STAT_WEALTH] += 600;
+	}
+
+	quort = FindItem("quortgrn");
+	if (quort)
+	{
+		ent->client->ps.stats[STAT_WEALTH] += 720;
+	}
+
+	quort = FindItem("quortred");
+	if (quort)
+	{
+		ent->client->ps.stats[STAT_WEALTH] += 800;
+	}
+
+	quort = FindItem("quortorng");
+	if (quort)
+	{
+		ent->client->ps.stats[STAT_WEALTH] += 850;
+	}
+
+	quort = FindItem("quortpurp");
+	if (quort)
+	{
+		ent->client->ps.stats[STAT_WEALTH] += 900;
+	}
+
+	return true;
+}
+
+//======================================================================
 
 qboolean Pickup_Key (edict_t *ent, edict_t *other)
 {
@@ -1662,6 +1726,11 @@ always owned, never in the world
 	//
 	// POWERUP ITEMS
 	//
+
+	//
+  // POWERUP ITEMS
+  //
+
 /*QUAKED item_quad (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
@@ -1673,17 +1742,18 @@ always owned, never in the world
 		"items/pkup.wav",
 		"models/items/quaddama/tris.md2", EF_ROTATE,
 		NULL,
-/* icon */		"p_quad",
-/* pickup */	"Quad Damage",
-/* width */		2,
+// icon 		"p_quad",
+// pickup 	"Quad Damage",
+// width 		2,
 		60,
 		NULL,
 		IT_POWERUP,
 		0,
 		NULL,
 		0,
-/* precache */ "items/damage.wav items/damage2.wav items/damage3.wav"
+// precache "items/damage.wav items/damage2.wav items/damage3.wav"
 	},
+
 
 /*QUAKED item_invulnerability (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
@@ -2110,6 +2180,212 @@ tank commander's head
 		0,
 /* precache */ "items/s_health.wav items/n_health.wav items/l_health.wav items/m_health.wav"
 	},
+
+	/*
+	==================
+	cerulean
+
+	Quort Items
+	==================
+	*/
+	// Pink
+	{
+		NULL,
+		Pickup_Quort,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		NULL, 0,
+		NULL,
+		/* icon */		"i_health",
+		/* pickup */	"quortpink",
+		/* width */		3,
+				0,
+				NULL,
+				0,
+				0,
+				NULL,
+				0,
+				/* precache */ "items/s_health.wav items/n_health.wav items/l_health.wav items/m_health.wav"
+	},
+
+	// Yellow
+	{
+		NULL,
+		Pickup_Quort,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		NULL, 0,
+		NULL,
+		/* icon */		"i_health",
+		/* pickup */	"quortyell",
+		/* width */		3,
+				0,
+				NULL,
+				0,
+				0,
+				NULL,
+				0,
+				/* precache */ "items/s_health.wav items/n_health.wav items/l_health.wav items/m_health.wav"
+	},
+
+	// Gray
+	{
+		NULL,
+		Pickup_Quort,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		NULL, 0,
+		NULL,
+		/* icon */		"i_health",
+		/* pickup */	"quortgray",
+		/* width */		3,
+				0,
+				NULL,
+				0,
+				0,
+				NULL,
+				0,
+				/* precache */ "items/s_health.wav items/n_health.wav items/l_health.wav items/m_health.wav"
+	},
+
+	// White
+	{
+		NULL,
+		Pickup_Quort,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		NULL, 0,
+		NULL,
+		/* icon */		"i_health",
+		/* pickup */	"quortwht",
+		/* width */		3,
+				0,
+				NULL,
+				0,
+				0,
+				NULL,
+				0,
+				/* precache */ "items/s_health.wav items/n_health.wav items/l_health.wav items/m_health.wav"
+	},
+
+	// Blue
+	{
+		NULL,
+		Pickup_Quort,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		NULL, 0,
+		NULL,
+		/* icon */		"i_health",
+		/* pickup */	"quortblue",
+		/* width */		3,
+				0,
+				NULL,
+				0,
+				0,
+				NULL,
+				0,
+				/* precache */ "items/s_health.wav items/n_health.wav items/l_health.wav items/m_health.wav"
+	},
+
+	// Green
+	{
+		NULL,
+		Pickup_Quort,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		NULL, 0,
+		NULL,
+		/* icon */		"i_health",
+		/* pickup */	"quortgrn",
+		/* width */		3,
+				0,
+				NULL,
+				0,
+				0,
+				NULL,
+				0,
+				/* precache */ "items/s_health.wav items/n_health.wav items/l_health.wav items/m_health.wav"
+	},
+
+	// Red
+	{
+		NULL,
+		Pickup_Quort,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		NULL, 0,
+		NULL,
+		/* icon */		"i_health",
+		/* pickup */	"quortred",
+		/* width */		3,
+				0,
+				NULL,
+				0,
+				0,
+				NULL,
+				0,
+				/* precache */ "items/s_health.wav items/n_health.wav items/l_health.wav items/m_health.wav"
+	},
+
+	// Orange
+	{
+		NULL,
+		Pickup_Quort,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		NULL, 0,
+		NULL,
+		/* icon */		"i_health",
+		/* pickup */	"quortorng",
+		/* width */		3,
+				0,
+				NULL,
+				0,
+				0,
+				NULL,
+				0,
+				/* precache */ "items/s_health.wav items/n_health.wav items/l_health.wav items/m_health.wav"
+	},
+
+	// Purple
+	{
+		NULL,
+		Pickup_Quort,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		NULL, 0,
+		NULL,
+		/* icon */		"i_health",
+		/* pickup */	"quortpurp",
+		/* width */		3,
+				0,
+				NULL,
+				0,
+				0,
+				NULL,
+				0,
+				/* precache */ "items/s_health.wav items/n_health.wav items/l_health.wav items/m_health.wav"
+	},
+	// cerulean - end of quort items
 
 	// end of list marker
 	{NULL}

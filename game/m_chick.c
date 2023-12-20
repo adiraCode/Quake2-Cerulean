@@ -462,8 +462,8 @@ void ChickRocket (edict_t *self)
 	vec[2] += self->enemy->viewheight;
 	VectorSubtract (vec, start, dir);
 	VectorNormalize (dir);
-
-	monster_fire_rocket (self, start, dir, 50, 500, MZ2_CHICK_ROCKET_1);
+	// cerulean - variable change
+	monster_fire_rocket (self, start, dir, 0, 500, MZ2_CHICK_ROCKET_1); // changed int damage 50 to 0
 }	
 
 void Chick_PreAttack1 (edict_t *self)

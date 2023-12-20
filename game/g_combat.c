@@ -375,6 +375,7 @@ qboolean CheckTeamDamage (edict_t *targ, edict_t *attacker)
 }
 
 void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir, vec3_t point, vec3_t normal, int damage, int knockback, int dflags, int mod)
+// inflictor == bullet, attacker == person shooting
 {
 	gclient_t	*client;
 	int			take;
@@ -487,13 +488,155 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 	if (take)
 	{
 		if ((targ->svflags & SVF_MONSTER) || (client))
-			SpawnDamage (TE_BLOOD, point, normal, take);
+		{
+			SpawnDamage(TE_BLOOD, point, normal, take);
+
+			// meat
+			if (inflictor == AMMO_ROCKETS)
+			{
+				if (!(targ->classname == "monster_gunner" ||
+					targ->classname == "monster_parasite" ||
+					targ->classname == "monster_berserk"))
+				{
+					edict_t* tarr;
+
+					targ->health = 0;
+					tarr = G_Spawn();
+					VectorCopy(point, tarr->s.origin);
+					SP_monster_gladiator(tarr);
+				}
+				else
+				{
+					gitem_t* quort;
+					edict_t* quort_ent;
+
+					//VectorCopy(point, quort->s.origin);
+					if (targ->classname == "monster_gunner")
+					{
+						quort = FindItemByClassname("quortgray");
+						quort_ent = G_Spawn();
+						quort_ent->classname = quort->classname;
+						SpawnItem(quort_ent, quort);
+					}
+					if (targ->classname == "monster_parasite")
+					{
+						quort = FindItemByClassname("quortgrn");
+						quort_ent = G_Spawn();
+						quort_ent->classname = quort->classname;
+						SpawnItem(quort_ent, quort);
+					}
+					if (targ->classname == "monster_berserk")
+					{
+						quort = FindItemByClassname("quortpurp");
+						quort_ent = G_Spawn();
+						quort_ent->classname = quort->classname;
+						SpawnItem(quort_ent, quort);
+					}
+				}
+				// gray,green,purple
+			}
+			// Veggies
+			else if (inflictor == AMMO_SHELLS)
+			{
+				if (!(targ->classname == "monster_soilder" ||
+					targ->classname == "monster_infantry" ||
+					targ->classname == "monster_flipper"))
+				{
+					edict_t* tarr;
+
+					targ->health = 0;
+					tarr = G_Spawn();
+					VectorCopy(point, tarr->s.origin);
+					SP_monster_gladiator(tarr);
+				}
+				else
+				{
+					gitem_t* quort;
+					edict_t* quort_ent;
+
+					//VectorCopy(point, quort->s.origin);
+					if (targ->classname == "monster_soilder")
+					{
+						quort = FindItemByClassname("quortyell");
+						quort_ent = G_Spawn();
+						quort_ent->classname = quort->classname;
+						SpawnItem(quort_ent, quort);
+					}
+					if (targ->classname == "monster_infantry")
+					{
+						quort = FindItemByClassname("quortblue");
+						quort_ent = G_Spawn();
+						quort_ent->classname = quort->classname;
+						SpawnItem(quort_ent, quort);
+					}
+					if (targ->classname == "monster_flipper")
+					{
+						quort = FindItemByClassname("quortorng");
+						quort_ent = G_Spawn();
+						quort_ent->classname = quort->classname;
+						SpawnItem(quort_ent, quort);
+					}
+				}
+				// yellow,blue,orange
+			}
+
+			else if (inflictor == AMMO_BULLETS)
+			{
+				if (!(targ->classname == "monster_medic" ||
+					targ->classname == "monster_mutant" ||
+					targ->classname == "monster_brain"))
+				{
+					edict_t* tarr;
+
+					targ->health = 0;
+					tarr = G_Spawn();
+					VectorCopy(point, tarr->s.origin);
+					SP_monster_gladiator(tarr);
+				}
+				else
+				{
+					gitem_t* quort;
+					edict_t* quort_ent;
+
+					//VectorCopy(point, quort->s.origin);
+					if (targ->classname == "monster_medic")
+					{
+						quort = FindItemByClassname("quortpink");
+						quort_ent = G_Spawn();
+						quort_ent->classname = quort->classname;
+						SpawnItem(quort_ent, quort);
+					}
+					if (targ->classname == "monster_mutant")
+					{
+						quort = FindItemByClassname("quortwhite");
+						quort_ent = G_Spawn();
+						quort_ent->classname = quort->classname;
+						SpawnItem(quort_ent, quort);
+					}
+					if (targ->classname == "monster_brain")
+					{
+						quort = FindItemByClassname("quortred");
+						quort_ent = G_Spawn();
+						quort_ent->classname = quort->classname;
+						SpawnItem(quort_ent, quort);
+					}
+				}
+				// pink,white,red
+			}
+		}		
 		else
-			SpawnDamage (te_sparks, point, normal, take);
+		{
+			SpawnDamage(te_sparks, point, normal, take);
+		}
 
-
-		targ->health = targ->health - take;
-			
+		// cerulean - damage remove from player
+		if (targ->svflags & SVF_MONSTER) 
+		{
+			targ->health = targ->health - take;
+		}
+		// targ->health = targ->health - take;
+		gi.centerprintf(targ, "OW?!\n");
+					
 		if (targ->health <= 0)
 		{
 			if ((targ->svflags & SVF_MONSTER) || (client))

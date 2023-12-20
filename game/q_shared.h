@@ -502,6 +502,11 @@ typedef struct
 //
 #define	BUTTON_ATTACK		1
 #define	BUTTON_USE			2
+// cerulean
+// ========
+// for push fuction for vaccum gun
+//#define BUTTON_RIGHT		3
+
 #define	BUTTON_ANY			128			// any key whatsoever
 
 
@@ -999,8 +1004,11 @@ typedef enum
 #define	STAT_SELECTED_ICON		6
 #define	STAT_PICKUP_ICON		7
 #define	STAT_PICKUP_STRING		8
-#define	STAT_TIMER_ICON			9
-#define	STAT_TIMER				10
+// #define	STAT_TIMER_ICON			9
+// #define	STAT_TIMER				10
+// cerulean - removed for slime counter
+#define	STAT_SLIME_ICON			9
+#define	STAT_SLIME				10
 #define	STAT_HELPICON			11
 #define	STAT_SELECTED_ITEM		12
 #define	STAT_LAYOUTS			13
@@ -1008,6 +1016,24 @@ typedef enum
 #define	STAT_FLASHES			15		// cleared each frame, 1 = health, 2 = armor
 #define STAT_CHASE				16
 #define STAT_SPECTATOR			17
+
+// cerulean - range finder (slime finder)
+// =======================
+// CCH: range finder stat
+//#define STAT_SLIMEFINDER		18
+
+// cerulean - wealth
+// =======================
+#define STAT_WEALTH				19
+
+// cerulean - statusbar
+// =======================
+#define	STAT_FRUIT_ICON			20
+#define	STAT_FRUIT				21
+#define	STAT_VEGGIE_ICON		22
+#define	STAT_VEGGIE				23
+#define	STAT_MEAT_ICON			24
+#define	STAT_MEAT				25
 
 #define	MAX_STATS				32
 

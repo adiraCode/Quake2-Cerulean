@@ -800,8 +800,9 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 	int		radius_damage;
 
 	damage = 100 + (int)(random() * 20.0);
-	radius_damage = 120;
-	damage_radius = 120;
+	// ceruelean values
+	radius_damage = 3000; // changed from 120 to 3000
+	damage_radius = 3000; // changed from 120 to 3000
 	if (is_quad)
 	{
 		damage *= 4;

@@ -765,8 +765,9 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 	int		radius_damage;
 
 	damage = 100 + (int)(random() * 20.0);
-	radius_damage = 120;
-	damage_radius = 120;
+	//cerulean - variable change
+	radius_damage = 12; // changed from 120 to 12
+	damage_radius = 12; // changed from 120 to 12
 	if (is_quad)
 	{
 		damage *= 4;
@@ -864,13 +865,17 @@ void Weapon_Blaster (edict_t *ent)
 	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
 }
 
-
+// cerulean - modded to Vaccum Gun
 void Weapon_HyperBlaster_Fire (edict_t *ent)
 {
 	float	rotation;
 	vec3_t	offset;
 	int		effect;
 	int		damage;
+	vec3_t	start;
+	vec3_t	forward;
+	vec3_t	end;
+	trace_t tr;
 
 	ent->client->weapon_sound = gi.soundindex("weapons/hyprbl1a.wav");
 
@@ -882,12 +887,15 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 	{
 		if (! ent->client->pers.inventory[ent->client->ammo_index] )
 		{
+			/*
 			if (level.time >= ent->pain_debounce_time)
 			{
 				gi.sound(ent, CHAN_VOICE, gi.soundindex("weapons/noammo.wav"), 1, ATTN_NORM, 0);
 				ent->pain_debounce_time = level.time + 1;
 			}
-			NoAmmoWeaponChange (ent);
+			NoAmmoWeaponChange(ent);
+			*/
+			return;
 		}
 		else
 		{
@@ -895,6 +903,22 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 			offset[0] = -4 * sin(rotation);
 			offset[1] = 0;
 			offset[2] = 4 * cos(rotation);
+
+			VectorCopy(ent->s.origin, start);
+			start[2] += ent->viewheight;
+			AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+			VectorMA(start, 8192, forward, end);
+			tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
+			if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client)))
+			{
+				VectorScale(forward, -500, forward);
+				VectorAdd(forward, tr.ent->velocity, tr.ent->velocity);
+				if (tr.fraction < 0.005 )
+				{
+					G_FreeEdict(tr.ent);
+					return;
+				}
+			}
 
 			if ((ent->client->ps.gunframe == 6) || (ent->client->ps.gunframe == 9))
 				effect = EF_HYPERBLASTER;
@@ -904,9 +928,10 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 				damage = 15;
 			else
 				damage = 20;
-			Blaster_Fire (ent, offset, damage, true, effect);
+			// cerulean - removed to simulate suction
+			//Blaster_Fire (ent, offset, damage, true, effect);
 			if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-				ent->client->pers.inventory[ent->client->ammo_index]--;
+				ent->client->pers.inventory[ent->client->ammo_index];
 
 			ent->client->anim_priority = ANIM_ATTACK;
 			if (ent->client->ps.pmove.pm_flags & PMF_DUCKED)
@@ -920,10 +945,6 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 				ent->client->anim_end = FRAME_attack8;
 			}
 		}
-
-		ent->client->ps.gunframe++;
-		if (ent->client->ps.gunframe == 12 && ent->client->pers.inventory[ent->client->ammo_index])
-			ent->client->ps.gunframe = 6;
 	}
 
 	if (ent->client->ps.gunframe == 12)
@@ -931,7 +952,6 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 		gi.sound(ent, CHAN_AUTO, gi.soundindex("weapons/hyprbd1a.wav"), 1, ATTN_NORM, 0);
 		ent->client->weapon_sound = 0;
 	}
-
 }
 
 void Weapon_HyperBlaster (edict_t *ent)
@@ -1180,7 +1200,7 @@ SHOTGUN / SUPERSHOTGUN
 
 ======================================================================
 */
-
+// cerulean - modded to portable telporter
 void weapon_shotgun_fire (edict_t *ent)
 {
 	vec3_t		start;
@@ -1225,6 +1245,10 @@ void weapon_shotgun_fire (edict_t *ent)
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		ent->client->pers.inventory[ent->client->ammo_index]--;
+		VectorCopy(ent->s.origin, ent->client->teleport_origin);
+		VectorCopy(ent->s.angles, ent->client->teleport_angles);
+		ent->client->teleport_stored = true;
+		gi.centerprintf(ent, "Teleport Location Stored!\n");
 }
 
 void Weapon_Shotgun (edict_t *ent)

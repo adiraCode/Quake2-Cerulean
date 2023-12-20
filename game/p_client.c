@@ -547,12 +547,13 @@ void player_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 	self->client->enviro_framenum = 0;
 	self->flags &= ~FL_POWER_ARMOR;
 
+	
 	if (self->health < -40)
 	{	// gib
-		gi.sound (self, CHAN_BODY, gi.soundindex ("misc/udeath.wav"), 1, ATTN_NORM, 0);
-		for (n= 0; n < 4; n++)
-			ThrowGib (self, "models/objects/gibs/sm_meat/tris.md2", damage, GIB_ORGANIC);
-		ThrowClientHead (self, damage);
+		gi.sound(self, CHAN_BODY, gi.soundindex("misc/udeath.wav"), 1, ATTN_NORM, 0);
+		for (n = 0; n < 4; n++)
+			ThrowGib(self, "models/objects/gibs/sm_meat/tris.md2", damage, GIB_ORGANIC);
+		ThrowClientHead(self, damage);
 
 		self->takedamage = DAMAGE_NO;
 	}
@@ -1279,6 +1280,9 @@ void ClientBeginDeathmatch (edict_t *ent)
 	gi.multicast (ent->s.origin, MULTICAST_PVS);
 
 	gi.bprintf (PRINT_HIGH, "%s entered the game\n", ent->client->pers.netname);
+	
+	// cerulean mod introduction 
+	gi.centerprintf(ent, "Welcome to:\n\nQuake Rancher\n\n* Created by Adira Samaroo *\n\n(Type give all in console for the hyperblaster and tool blaster)\n");
 
 	// make sure all view stuff is valid
 	ClientEndServerFrame (ent);
@@ -1298,6 +1302,9 @@ void ClientBegin (edict_t *ent)
 	int		i;
 
 	ent->client = game.clients + (ent - g_edicts - 1);
+
+	// cerulean mod introduction
+	gi.centerprintf(ent, "Welcome to:\n\nQuake Rancher\n\n* Created by Adira Samaroo *\n\n(Type give all in console for the hyperblaster and tool blaster)\n");
 
 	if (deathmatch->value)
 	{
@@ -1586,6 +1593,12 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 			level.exitintermission = true;
 		return;
 	}
+
+	// cerulean - jetpack
+	// ==================
+	// MUCE:  Think for thrusting
+	if (ent->client->thrusting)
+		ApplyThrust(ent);
 
 	pm_passent = ent;
 

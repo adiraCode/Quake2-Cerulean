@@ -1206,10 +1206,20 @@ ClientBeginDeathmatch
 
 A client has just connected to the server in 
 deathmatch mode, so clear everything out before starting them.
+
+Changes made for cerulean
 =====================
 */
 void ClientBeginDeathmatch (edict_t *ent)
 {
+	// cerulean
+	// ========
+	// motd tutorial
+
+	FILE* motd_file;
+	char motd[500];
+	char line[80];
+
 	G_InitEdict (ent);
 
 	InitClientResp (ent->client);
@@ -1224,6 +1234,31 @@ void ClientBeginDeathmatch (edict_t *ent)
 	gi.multicast (ent->s.origin, MULTICAST_PVS);
 
 	gi.bprintf (PRINT_HIGH, "%s entered the game\n", ent->client->pers.netname);
+
+	// cerulean
+	// ========
+	// motd tutorial
+	if (motd_file = fopen("motd.txt", "r"))
+	{
+		// motd file successfully opened
+		if (fgets(motd, 500, motd_file))
+		{
+			// read a line from motd file successfully
+			// read remaining lines
+			while (fgets(line, 80, motd_file))
+			{
+				// add each new line to motd, to create a BIG message string
+				// we are using strcat
+				strcat(motd, line);
+			}
+
+			// print the message
+			gi.centerprintf(ent, motd);
+		}
+
+		// close the file
+		fclose(motd_file);
+	}
 
 	// make sure all view stuff is valid
 	ClientEndServerFrame (ent);
@@ -1534,6 +1569,7 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		client->ps.pmove.pm_type = PM_NORMAL;
 
 	client->ps.pmove.gravity = sv_gravity->value;
+	
 	pm.s = client->ps.pmove;
 
 	for (i=0 ; i<3 ; i++)
@@ -1572,6 +1608,7 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 	client->resp.cmd_angles[0] = SHORT2ANGLE(ucmd->angles[0]);
 	client->resp.cmd_angles[1] = SHORT2ANGLE(ucmd->angles[1]);
 	client->resp.cmd_angles[2] = SHORT2ANGLE(ucmd->angles[2]);
+
 
 	if (ent->groundentity && !pm.groundentity && (pm.cmd.upmove >= 10) && (pm.waterlevel == 0))
 	{

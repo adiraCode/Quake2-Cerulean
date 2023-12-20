@@ -1,0 +1,77 @@
+﻿  g_ai.c
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\g_ai.c(771,47): warning C4100: 'dist': unreferenced formal parameter
+  p_client.c
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(56,31): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(74,5): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(70,42): warning C4100: 'self': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(112,5): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(145,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(146,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(147,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(148,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(149,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(150,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(151,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(152,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(153,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(154,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(155,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(156,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(157,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(158,6): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(179,66): warning C4100: 'damage': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(179,56): warning C4100: 'kick': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(179,43): warning C4100: 'other': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(179,28): warning C4100: 'self': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(199,46): warning C4100: 'inflictor': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(489,91): warning C4100: 'point': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(964,89): warning C4100: 'point': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(964,60): warning C4100: 'attacker': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(964,40): warning C4100: 'inflictor': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(1252,5): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(1241,18): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(1350,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(1355,2): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(1392,2): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  q_shared.c
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(266,40): warning C4100: 'f': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(312,7): warning C4459: declaration of 'i' hides global declaration
+  C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(305,7):
+  see declaration of 'i'
+  
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(315,9): warning C4459: declaration of 'corners' hides global declaration
+  C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(306,9):
+  see declaration of 'corners'
+  
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(418,86): warning C4100: 'p': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(418,62): warning C4100: 'emaxs': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(418,48): warning C4100: 'emins': unreferenced formal parameter
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(658,7): warning C4459: declaration of 'i' hides global declaration
+  C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(305,7):
+  see declaration of 'i'
+  
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(764,7): warning C4459: declaration of 'i' hides global declaration
+  C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(305,7):
+  see declaration of 'i'
+  
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(841,7): warning C4459: declaration of 'i' hides global declaration
+  C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(305,7):
+  see declaration of 'i'
+  
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(876,3): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(897,2): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(923,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(1056,2): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(1164,7): warning C4459: declaration of 'i' hides global declaration
+  C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(305,7):
+  see declaration of 'i'
+  
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(1231,8): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(1235,2): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\q_shared.c(1335,4): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  Generating Code...
+C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\p_client.c(1241): warning C4706: assignment within conditional expression
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(1392,5): warning MSB8012: TargetPath(C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\release\ctf.dll) does not match the Linker's OutputFile property value (C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\release\gamex86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(1394,5): warning MSB8012: TargetName(ctf) does not match the Linker's OutputFile property value (gamex86). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     Creating library .\release\gamex86.lib and object .\release\gamex86.exp
+  ctf.vcxproj -> C:\Users\Trini\source\repos\Q2mod-cerulean\ctf\release\ctf.dll
